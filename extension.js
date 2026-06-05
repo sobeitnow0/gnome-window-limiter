@@ -6,6 +6,9 @@ import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 export default class WindowLimiterExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
+        this._mutterSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter' });
+        this._wmSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.preferences' });
+        this._idleSources = new Set();
         
         // Connect to the window-created signal on the global display object
         this._windowCreatedId = global.display.connect('window-created', (display, window) => {
@@ -19,7 +22,19 @@ export default class WindowLimiterExtension extends Extension {
             global.display.disconnect(this._windowCreatedId);
             this._windowCreatedId = null;
         }
+
+        // Clean up any pending idle handlers to avoid memory leaks or executing code after extension is disabled
+        if (this._idleSources) {
+            for (const id of this._idleSources) {
+                GLib.Source.remove(id);
+            }
+            this._idleSources.clear();
+            this._idleSources = null;
+        }
+
         this._settings = null;
+        this._mutterSettings = null;
+        this._wmSettings = null;
     }
 
     _onWindowCreated(window) {
@@ -30,7 +45,11 @@ export default class WindowLimiterExtension extends Extension {
 
         // Defer execution using GLib.idle_add to ensure the window has been fully initialized
         // and assigned to its initial workspace by Mutter before we count and move it.
-        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+        const sourceId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            if (this._idleSources) {
+                this._idleSources.delete(sourceId);
+            }
+
             // Exit if the extension was disabled during the idle deferral
             if (!this._settings) {
                 return GLib.SOURCE_REMOVE;
@@ -80,8 +99,7 @@ export default class WindowLimiterExtension extends Extension {
                     nextWs = workspaceManager.get_workspace_by_index(nextIndex);
                 } else {
                     // Check if dynamic workspaces are enabled
-                    let mutterSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter' });
-                    const isDynamic = mutterSettings.get_boolean('dynamic-workspaces');
+                    const isDynamic = this._mutterSettings.get_boolean('dynamic-workspaces');
 
                     if (isDynamic) {
                         try {
@@ -92,9 +110,8 @@ export default class WindowLimiterExtension extends Extension {
                         }
                     } else {
                         // If static workspaces, programmatically increment num-workspaces in preferences
-                        let wmSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.wm.preferences' });
-                        const numWorkspaces = wmSettings.get_int('num-workspaces');
-                        wmSettings.set_int('num-workspaces', numWorkspaces + 1);
+                        const numWorkspaces = this._wmSettings.get_int('num-workspaces');
+                        this._wmSettings.set_int('num-workspaces', numWorkspaces + 1);
                         
                         // Retrieve the newly created workspace
                         nextWs = workspaceManager.get_workspace_by_index(numWorkspaces);
@@ -127,5 +144,9 @@ export default class WindowLimiterExtension extends Extension {
 
             return GLib.SOURCE_REMOVE; // Remove the idle handler so it only runs once
         });
+
+        if (this._idleSources) {
+            this._idleSources.add(sourceId);
+        }
     }
 }

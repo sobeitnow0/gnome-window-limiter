@@ -1,7 +1,7 @@
 {
   "uuid": "gnome-window-limiter@sobeitnow0.github.com",
   "name": "GNOME Window Limiter",
-  "description": "Limita o número de janelas ativas em cada área de trabalho virtual, movendo janelas adicionais para a próxima área de trabalho.",
+  "description": "Limits the number of active windows per virtual workspace, automatically moving additional windows to the next workspace.",
   "shell-version": [
     "45",
     "46",

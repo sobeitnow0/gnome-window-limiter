@@ -6,25 +6,28 @@ import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/
 export default class WindowLimiterPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
+        
+        // Prevent settings from being garbage-collected while the window is open
+        window._settings = settings;
 
         // Create the settings page using native Libadwaita styling
         const page = new Adw.PreferencesPage({
-            title: 'Configurações',
+            title: 'Settings',
             icon_name: 'preferences-system-symbolic',
         });
 
         // Group settings together
         const group = new Adw.PreferencesGroup({
-            title: 'Configurações do Limitador',
-            description: 'Configure o limite de janelas e o comportamento da transição.',
+            title: 'Window Limiter Settings',
+            description: 'Configure window limits and transition behavior.',
         });
         page.add(group);
         window.add(page);
 
         // Window Limit input field (SpinRow)
         const limitRow = new Adw.SpinRow({
-            title: 'Limite de Janelas',
-            subtitle: 'Número máximo de janelas normais permitidas em cada área de trabalho virtual.',
+            title: 'Window Limit',
+            subtitle: 'Maximum number of normal windows allowed per workspace.',
             adjustment: new Gtk.Adjustment({
                 lower: 1,
                 upper: 20,
@@ -36,8 +39,8 @@ export default class WindowLimiterPreferences extends ExtensionPreferences {
 
         // Auto Switch toggle switch (SwitchRow)
         const switchRow = new Adw.SwitchRow({
-            title: 'Alternar Área de Trabalho Automaticamente',
-            subtitle: 'Se ativado, foca a nova área de trabalho quando uma janela for redirecionada.',
+            title: 'Auto-Switch Workspace',
+            subtitle: 'If enabled, automatically focuses the target workspace when a window is moved.',
         });
         group.add(switchRow);
         settings.bind('auto-switch-workspace', switchRow, 'active', Gio.SettingsBindFlags.DEFAULT);
