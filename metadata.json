@@ -1,0 +1,15 @@
+{
+  "uuid": "gnome-window-limiter@sobeitnow0.github.com",
+  "name": "GNOME Window Limiter",
+  "description": "Limita o número de janelas ativas em cada área de trabalho virtual, movendo janelas adicionais para a próxima área de trabalho.",
+  "shell-version": [
+    "45",
+    "46",
+    "47",
+    "48",
+    "49",
+    "50"
+  ],
+  "url": "https://github.com/sobeitnow0/gnome-window-limiter",
+  "settings-schema": "org.gnome.shell.extensions.gnome-window-limiter"
+}
