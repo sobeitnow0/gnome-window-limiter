@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.gnome-window-limiter" path="/org/gnome/shell/extensions/gnome-window-limiter/">
+    <key name="window-limit" type="i">
+      <default>3</default>
+      <summary>Window limit per workspace</summary>
+      <description>The maximum number of normal windows allowed in each virtual workspace before moving new ones to the next.</description>
+    </key>
+    <key name="auto-switch-workspace" type="b">
+      <default>true</default>
+      <summary>Auto-switch workspace</summary>
+      <description>Whether to automatically switch the view to the target workspace when a window is moved.</description>
+    </key>
+    <key name="window-blacklist" type="s">
+      <default>""</default>
+      <summary>Window blacklist</summary>
+      <description>Comma-separated list of window titles or classes to ignore (e.g., "chatgpt, vicinae").</description>
+    </key>
+  </schema>
+</schemalist>

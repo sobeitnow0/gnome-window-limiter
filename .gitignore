@@ -1,0 +1,3 @@
+# Compiled schemas (generated on installation)
+/schemas/gschemas.compiled
+*.zip

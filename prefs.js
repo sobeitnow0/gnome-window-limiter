@@ -44,5 +44,13 @@ export default class WindowLimiterPreferences extends ExtensionPreferences {
         });
         group.add(switchRow);
         settings.bind('auto-switch-workspace', switchRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+        // Window Blacklist input field (EntryRow)
+        const blacklistRow = new Adw.EntryRow({
+            title: 'Window Blacklist',
+            subtitle: 'Comma-separated list of window titles or classes to ignore (e.g., \'chatgpt, vicinae\').',
+        });
+        group.add(blacklistRow);
+        settings.bind('window-blacklist', blacklistRow, 'text', Gio.SettingsBindFlags.DEFAULT);
     }
 }

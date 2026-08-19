@@ -72,16 +72,39 @@ export default class WindowLimiterExtension extends Extension {
             // Get settings
             const limit = this._settings.get_int('window-limit');
             const autoSwitch = this._settings.get_boolean('auto-switch-workspace');
+            const blacklistStr = this._settings.get_string('window-blacklist');
 
             if (limit <= 0) {
                 return GLib.SOURCE_REMOVE; // 0 or negative value represents unlimited
+            }
+
+            // Check if window is blacklisted
+            const blacklist = blacklistStr.split(',').map(s => s.trim().toLowerCase()).filter(s => s.length > 0);
+            if (blacklist.length > 0) {
+                const wmClass = (window.get_wm_class() || '').toLowerCase();
+                const title = (window.get_title() || '').toLowerCase();
+                const isBlacklisted = blacklist.some(b => wmClass.includes(b) || title.includes(b));
+                if (isBlacklisted) {
+                    return GLib.SOURCE_REMOVE;
+                }
             }
 
             // Fetch and filter windows in the current workspace
             const windows = currentWs.list_windows();
             const normalWindows = windows.filter(w => {
                 try {
-                    return w && w.get_window_type() === Meta.WindowType.NORMAL;
+                    if (w && w.get_window_type() === Meta.WindowType.NORMAL) {
+                        if (blacklist.length > 0) {
+                            const wClass = (w.get_wm_class() || '').toLowerCase();
+                            const wTitle = (w.get_title() || '').toLowerCase();
+                            const isWBlacklisted = blacklist.some(b => wClass.includes(b) || wTitle.includes(b));
+                            if (isWBlacklisted) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                    return false;
                 } catch (e) {
                     return false;
                 }
