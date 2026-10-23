@@ -8,8 +8,10 @@
     "47",
     "48",
     "49",
-    "50"
+    "50",
+    "51"
   ],
+  "gettext-domain": "gnome-window-limiter",
   "url": "https://github.com/sobeitnow0/gnome-window-limiter",
   "settings-schema": "org.gnome.shell.extensions.gnome-window-limiter"
 }

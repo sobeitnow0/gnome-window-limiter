@@ -11,6 +11,21 @@
       <summary>Auto-switch workspace</summary>
       <description>Whether to automatically switch the view to the target workspace when a window is moved.</description>
     </key>
+    <key name="smart-workspace-fill" type="b">
+      <default>true</default>
+      <summary>Smart workspace fill</summary>
+      <description>Search for the next workspace with available slots before creating a new workspace.</description>
+    </key>
+    <key name="count-minimized-windows" type="b">
+      <default>false</default>
+      <summary>Count minimized windows</summary>
+      <description>Whether minimized windows count towards the workspace window limit.</description>
+    </key>
+    <key name="primary-monitor-only" type="b">
+      <default>true</default>
+      <summary>Apply only to primary monitor</summary>
+      <description>If true and workspaces are set to primary monitor only, ignore windows on secondary monitors.</description>
+    </key>
     <key name="window-blacklist" type="s">
       <default>""</default>
       <summary>Window blacklist</summary>

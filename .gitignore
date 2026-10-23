@@ -1,3 +1,5 @@
 # Compiled schemas (generated on installation)
-/schemas/gschemas.compiled
+schemas/gschemas.compiled
 *.zip
+*.shell-extension.zip
+locale/

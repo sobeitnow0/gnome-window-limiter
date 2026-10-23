@@ -1,0 +1,85 @@
+# GNOME Window Limiter POT template.
+# Copyright (C) 2026 sobeitnow0
+# This file is distributed under the same license as the gnome-window-limiter package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-window-limiter\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-23 16:05-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js
+msgid "Settings"
+msgstr ""
+
+#: prefs.js
+msgid "Window Limits & Behavior"
+msgstr ""
+
+#: prefs.js
+msgid "Configure maximum allowed windows per workspace and transition behavior."
+msgstr ""
+
+#: prefs.js
+msgid "Window Limit"
+msgstr ""
+
+#: prefs.js
+msgid "Maximum number of normal windows allowed per workspace (0 for unlimited)."
+msgstr ""
+
+#: prefs.js
+msgid "Auto-Switch Workspace"
+msgstr ""
+
+#: prefs.js
+msgid "Automatically switch view and focus to the target workspace when a window is moved."
+msgstr ""
+
+#: prefs.js
+msgid "Smart Workspace Fill"
+msgstr ""
+
+#: prefs.js
+msgid "Place excess windows on the next workspace with available space before creating a new one."
+msgstr ""
+
+#: prefs.js
+msgid "Exclusions & Filters"
+msgstr ""
+
+#: prefs.js
+msgid "Fine-tune which windows count towards the workspace limit."
+msgstr ""
+
+#: prefs.js
+msgid "Count Minimized Windows"
+msgstr ""
+
+#: prefs.js
+msgid "Include minimized windows when calculating the current workspace window limit."
+msgstr ""
+
+#: prefs.js
+msgid "Apply Only to Primary Monitor"
+msgstr ""
+
+#: prefs.js
+msgid "Ignore secondary monitor windows if workspaces are set to primary monitor only."
+msgstr ""
+
+#: prefs.js
+msgid "Window Blacklist"
+msgstr ""
+
+#: prefs.js
+msgid "Comma-separated titles, classes, or App IDs to ignore (e.g. \"chatgpt, vicinae, vlc\")."
+msgstr ""

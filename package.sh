@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Simple script to bundle the GNOME Window Limiter extension for uploading to extensions.gnome.org
+# Script to bundle the GNOME Window Limiter extension
 
 UUID="gnome-window-limiter@sobeitnow0.github.com"
 SRC_DIR="$(dirname "$(realpath "$0")")"
@@ -15,15 +15,27 @@ if ! command -v gnome-extensions &> /dev/null; then
     exit 1
 fi
 
+PACK_ARGS=(
+    "$SRC_DIR"
+    --out-dir="$SRC_DIR"
+    --force
+    --podir="$SRC_DIR/po"
+    --gettext-domain="gnome-window-limiter"
+)
+
+if [ -f "$SRC_DIR/logo.png" ]; then
+    PACK_ARGS+=(--extra-source="logo.png")
+fi
+
 # Run gnome-extensions pack
 echo "Packaging extension..."
-gnome-extensions pack "$SRC_DIR" --out-dir="$SRC_DIR" --force
+gnome-extensions pack "${PACK_ARGS[@]}"
 
 if [ -f "$SRC_DIR/$ZIP_NAME" ]; then
     echo "Success! Package created:"
     echo "  $SRC_DIR/$ZIP_NAME"
     echo ""
-    echo "You can now upload this ZIP file to https://extensions.gnome.org/upload/"
+    echo "You can now distribute this ZIP file or attach it to GitHub Releases."
 else
     echo "Error: Failed to create package."
     exit 1
